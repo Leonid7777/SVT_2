@@ -1,0 +1,96 @@
+\documentclass{beamer}
+% Преамбула
+\title{My Super Topic}
+\author{Ashot and Alice}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}     
+\usepackage[english,russian]{babel} 
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\begin{document}
+
+\begin{frame}
+\thispagestyle{empty}
+\centerline{Московский государственный университет}
+\vfill
+\centerline{Факультет вычислительной математики и кибернетики}
+\vfill
+\vfill
+\vfill
+\vfill
+\Large
+\begin{centering}
+{\bfseries Численное решение 2D уравнения Лапласа"}
+\end{centering}
+\normalsize
+\vfill
+\vfill
+\vfill
+\begin{flushright}
+Студент: Бурцев Леонид\\
+Группа: 303
+\end{flushright}
+\vfill
+\vfill
+\centerline{Москва}
+\centerline{2024}
+\pagebreak
+\end{frame}
+
+\begin{frame}
+\textbf{Описание исходной задачи}
+\newline
+Необходимо решить краевую задачу Дирихле для уравнения Лапласа
+
+\begin{equation*}
+ \begin{cases}
+   - \Delta u = f, x \in \Omega = (0, 1)^{2}\\
+   u(x) = g, x \in \delta \Omega
+ \end{cases}
+\end{equation*}
+численно с помощью метода конечных разностей.
+\newline
+Решаем задачу в квадрате $\mathbf{(0, 1)^{2}}$, вводя на ней равномерную сетку ${(x_i, y_i)}$, $i,j = 0, \ldots , N$, где 
+$x_i = i * h$,
+$y_j = j * h$,
+$h = \frac{1}{N}$ - шаг сетки.
+\newline
+Дискретная аппроксимация уравнения:
+$$-\frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{h^{2}} -\frac{u_{i,j+1}-2u_{i,j}+u_{i,j-1}}{h^{2}} = f(x_{i,j})$$
+Пятиточечный шаблон приводит к линейной системе с матрицей, в которой 5 ненулевых элементов в строке.
+\newline
+В граничных узлах значения известны, поэтому неизвестные там не вводятся.
+\end{frame}
+
+\begin{frame}
+\textbf{Описание численного решения}
+\newline
+Для решения полученной линейной системы использовался стабилизированный метод бисопряженных градиентов $\textbf{BiCGStab}$ с переобуславливателем $\textbf{MPTILUC}$ из пакета INMOST.
+
+\end{frame}
+
+\begin{frame}
+\textbf{Для функции $u=sin(x)sin(5y)$ графики зависимости точности с-нормы и дискретной l2-нормы от шага сетки в логарифмическом виде выглядят следующим образом}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Снимок экрана 2024-03-12 в 21.17.41.png}
+\end{figure}
+\textbf{Сходимость l2-нормы: $O(0.77 * h^{2.07})$}    
+\newline
+\textbf{Сходимость c-нормы: $O(h^{2})$} 
+\end{frame}
+
+\begin{frame}
+\textbf{Графики времени построения решения и времени
+итераций от размера системы}  
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Снимок экрана 2024-03-12 в 21.27.17.png}
+\end{figure}
+\end{frame}
+\end{document}
+
