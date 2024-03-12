@@ -1,5 +1,5 @@
-mkdir build
-cd build/
-cmake ../
-make
-./main
+mkdir build 
+cd build/ 
+cmake ../ 
+make 
+./main 
