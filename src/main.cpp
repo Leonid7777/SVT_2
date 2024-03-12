@@ -81,6 +81,10 @@ main()
     create_matrix_and_vector(N, A, b, real_sol);
 
     Solver S(Solver::INNER_MPTILUC);
+
+    S.SetParameter("absolute_tolerance", "1e-10");
+    S.SetParameter("relative_tolerance", "1e-6");
+    
     S.SetMatrix(A);
     
     bool solved = S.Solve(b, sol);
